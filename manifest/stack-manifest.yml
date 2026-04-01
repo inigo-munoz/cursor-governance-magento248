@@ -1,0 +1,87 @@
+# Governance — Stack Manifest Magento 2.4.8
+# Fuente de verdad para el CLI — describe el stack de forma autodocumentada
+
+stack:
+  id: magento24
+  name: "Magento 2.4.x"
+  label: "Magento 2.4"
+  legacy: false
+  recommended: true
+  eol: "2028-04-11"
+
+# ── Sección leída por el CLI ────────────────────────────────────────
+cli:
+  main_rule: rules/magento-main-rule.md
+
+  security:
+    file: security/magento-security.md
+    reference: security/magento-security-reference.md
+    globs: "**/*.php,**/*.phtml"
+    description: "Magento 2.4 security rules — SQL injection, XSS, CSRF, ACL, secrets (CVEs 2026)"
+
+  modules:
+    file: architecture/magento-architecture.md
+    globs: "app/code/**,app/design/**"
+    description: "Magento 2.4 module architecture — DI, plugins, observers, service contracts, db_schema"
+    additional:
+      - conventions/magento-conventions.md
+      - context/magento-context.md
+      - patterns/magento-module-patterns.md
+
+  hooks:
+    scan_extensions: [".php", ".phtml"]
+    scan_script: governance-php-scan.sh
+
+# ── Plataforma ───────────────────────────────────────────────────────
+runtime:
+  language: php
+  version: "8.3"
+  supported_versions: ["8.3", "8.4"]
+  dropped_versions: ["8.1"]
+  package_manager: composer
+
+platform:
+  magento: "2.4.8"
+  released: "2025-04-08"
+  eol: "2028-04-11"
+  search: "OpenSearch 2.x"
+  database: "MariaDB 11.4 LTS | MySQL 8.4 LTS"
+  cache: "Redis 7.x"
+  queue: "RabbitMQ 4.x"
+  php_min: "8.3"
+
+# ── Documentación canónica ───────────────────────────────────────────
+canonical_documents:
+  main_rule:    rules/magento-main-rule.md
+  security:     security/magento-security.md
+  architecture: architecture/magento-architecture.md
+  conventions:  conventions/magento-conventions.md
+  patterns:     patterns/magento-module-patterns.md
+  context:      context/magento-context.md
+
+required_directories:
+  - rules
+  - security
+  - architecture
+  - conventions
+  - context
+  - patterns
+  - commands
+  - checklists
+  - manifest
+
+optional_directories:
+  - agents
+  - lessons
+  - tests
+  - templates
+  - skills-prebuilt
+
+extensions:
+  - skills-prebuilt
+  - agents
+  - commands
+  - checklists
+  - lessons
+  - tests
+  - manifest
