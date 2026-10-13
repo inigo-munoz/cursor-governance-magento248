@@ -286,8 +286,8 @@ public function __construct(
 vendor/magento/module-catalog/Model/Product.php  ← NUNCA editar
 
 // ✅ Correcto — Plugin, Observer o Preference en app/code/
-app/code/Iagt/Catalog/Plugin/ProductPlugin.php
-app/code/Iagt/Catalog/Observer/ProductSaveAfter.php
+app/code/Acme/Catalog/Plugin/ProductPlugin.php
+app/code/Acme/Catalog/Observer/ProductSaveAfter.php
 ```
 
 ---

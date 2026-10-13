@@ -34,7 +34,7 @@ Este documento define qué es **obligatorio**, qué es **recomendado** y qué es
 | Inyección por constructor | 🔴 |
 | No ObjectManager directo | 🔴 |
 | No plugins en constructores | 🔴 |
-| Vendor `Iagt` en módulos custom | 🔴 |
+| Vendor `Acme` en módulos custom | 🔴 |
 | Prefijo `vendor_` en tablas custom | 🔴 |
 
 ---

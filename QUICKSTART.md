@@ -36,15 +36,15 @@ Si tienes que elegir entre "rápido de hacer" y "performante", elige performante
 
 ### 3. Prefijo obligatorio
 
-Todos los módulos custom deben usar vendor `Iagt`:
+Todos los módulos custom deben usar vendor `Acme`:
 
 ```
-app/code/Iagt/MiModulo/
+app/code/Acme/MiModulo/
 ```
 
 Namespace:
 ```php
-namespace Iagt\MiModulo;
+namespace Acme\MiModulo;
 ```
 
 ---
@@ -90,7 +90,7 @@ Si `/review` indica 🔴 → **NO puede ir a producción**.
 [ ] ¿Mis colecciones tienen límite?
 [ ] ¿Mis bloques declaran cache tags?
 [ ] ¿Escapé todo output en templates?
-[ ] ¿Mi módulo usa vendor Iagt?
+[ ] ¿Mi módulo usa vendor Acme?
 [ ] ¿Ejecuté /review?
 ```
 

@@ -15,13 +15,13 @@
 - Queue: **RabbitMQ 4.1** (quorum queues — classic queues deprecated)
 - CDN: **Fastly**
 - Tema: tema custom hijo de **Luma** (RequireJS + KnockoutJS — no Hyvä)
-- Módulos custom: `app/code/Iagt/<ModuleName>/`
+- Módulos custom: `app/code/Acme/<ModuleName>/`
 - Coding standard: **Magento2** (PHP_CodeSniffer)
 
 ## Arquitectura de módulos — estructura obligatoria
 
 ```
-app/code/Iagt/<ModuleName>/
+app/code/Acme/<ModuleName>/
   Api/                          ← Service contracts (interfaces públicas)
     <Entity>RepositoryInterface.php
     Data/
@@ -97,7 +97,7 @@ public function afterGetPrice(Product $subject, float $result): float
 }
 
 // ❌ Preference sin justificación — rompe upgrades
-// <preference for="Magento\Catalog\Model\Product" type="Iagt\Module\Model\Product"/>
+// <preference for="Magento\Catalog\Model\Product" type="Acme\Module\Model\Product"/>
 ```
 
 ## Dependency Injection
@@ -127,7 +127,7 @@ public function __construct(ProductRepository $productRepository) // ← no la i
 <?php
 declare(strict_types=1);
 
-namespace Iagt\ModuleName\Model;
+namespace Acme\ModuleName\Model;
 
 // Todos los archivos PHP nuevos DEBEN empezar con declare(strict_types=1)
 // Los archivos existentes DEBERÍAN actualizarse progresivamente

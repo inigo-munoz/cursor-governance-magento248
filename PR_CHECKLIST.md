@@ -23,7 +23,7 @@ Copiar este checklist en la descripción del PR.
 [ ] Inyección de dependencias por constructor
 [ ] No uso de ObjectManager::getInstance()
 [ ] No plugins en constructores
-[ ] Módulo usa vendor Iagt
+[ ] Módulo usa vendor Acme
 [ ] Tablas custom usan prefijo vendor_
 ```
 

@@ -8,7 +8,7 @@
 ## Estructura de módulo
 
 ```
-app/code/Iagt/<ModuleName>/
+app/code/Acme/<ModuleName>/
   registration.php              ← OBLIGATORIO — registra el módulo
   composer.json                 ← Metadatos y dependencias Composer
   etc/
@@ -123,19 +123,19 @@ ComponentRegistrar::register(
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <!-- Preference (rewrite) — ÚLTIMO RECURSO -->
-    <preference for="Iagt\ModuleName\Api\EntityRepositoryInterface"
-                type="Iagt\ModuleName\Model\EntityRepository"/>
+    <preference for="Acme\ModuleName\Api\EntityRepositoryInterface"
+                type="Acme\ModuleName\Model\EntityRepository"/>
 
     <!-- Plugin — primera opción de extensión -->
     <type name="Magento\Catalog\Model\Product">
         <plugin name="vendor_module_product_plugin"
-                type="Iagt\ModuleName\Plugin\ProductPlugin"
+                type="Acme\ModuleName\Plugin\ProductPlugin"
                 sortOrder="10"    <!-- gaps de 10 para inserción futura -->
                 disabled="false"/>
     </type>
 
     <!-- VirtualType — reutilizar clase con diferente configuración -->
-    <virtualType name="Iagt\ModuleName\Model\SpecialLogger"
+    <virtualType name="Acme\ModuleName\Model\SpecialLogger"
                  type="Magento\Framework\Logger\Monolog">
         <arguments>
             <argument name="name" xsi:type="string">vendor_module</argument>
@@ -143,9 +143,9 @@ ComponentRegistrar::register(
     </virtualType>
 
     <!-- Arguments — inyectar configuración -->
-    <type name="Iagt\ModuleName\Model\SomeService">
+    <type name="Acme\ModuleName\Model\SomeService">
         <arguments>
-            <argument name="logger" xsi:type="object">Iagt\ModuleName\Model\SpecialLogger</argument>
+            <argument name="logger" xsi:type="object">Acme\ModuleName\Model\SpecialLogger</argument>
             <argument name="maxRetries" xsi:type="number">3</argument>
         </arguments>
     </type>
@@ -166,7 +166,7 @@ ComponentRegistrar::register(
 <?php
 declare(strict_types=1);
 
-namespace Iagt\ModuleName\Api;
+namespace Acme\ModuleName\Api;
 
 /**
  * @api
@@ -176,20 +176,20 @@ interface EntityRepositoryInterface
 {
     /**
      * @param int $id
-     * @return \Iagt\ModuleName\Api\Data\EntityInterface
+     * @return \Acme\ModuleName\Api\Data\EntityInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getById(int $id): Data\EntityInterface;
 
     /**
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Iagt\ModuleName\Api\Data\EntitySearchResultsInterface
+     * @return \Acme\ModuleName\Api\Data\EntitySearchResultsInterface
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria): Data\EntitySearchResultsInterface;
 
     /**
-     * @param \Iagt\ModuleName\Api\Data\EntityInterface $entity
-     * @return \Iagt\ModuleName\Api\Data\EntityInterface
+     * @param \Acme\ModuleName\Api\Data\EntityInterface $entity
+     * @return \Acme\ModuleName\Api\Data\EntityInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function save(Data\EntityInterface $entity): Data\EntityInterface;
@@ -217,7 +217,7 @@ interface EntityRepositoryInterface
 <?php
 declare(strict_types=1);
 
-namespace Iagt\ModuleName\Observer;
+namespace Acme\ModuleName\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
@@ -257,7 +257,7 @@ class OrderPlaceAfterObserver implements ObserverInterface
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="sales_order_place_after">
         <observer name="vendor_module_order_place_after"
-                  instance="Iagt\ModuleName\Observer\OrderPlaceAfterObserver"/>
+                  instance="Acme\ModuleName\Observer\OrderPlaceAfterObserver"/>
     </event>
 </config>
 ```
@@ -277,7 +277,7 @@ class OrderPlaceAfterObserver implements ObserverInterface
 <?php
 declare(strict_types=1);
 
-namespace Iagt\ModuleName\Plugin;
+namespace Acme\ModuleName\Plugin;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
@@ -384,7 +384,7 @@ bin/magento setup:upgrade
 <?php
 declare(strict_types=1);
 
-namespace Iagt\ModuleName\ViewModel;
+namespace Acme\ModuleName\ViewModel;
 
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
@@ -422,7 +422,7 @@ class ProductData implements ArgumentInterface
        template="Vendor_ModuleName::product.phtml">
     <arguments>
         <argument name="view_model"
-                  xsi:type="object">Iagt\ModuleName\ViewModel\ProductData</argument>
+                  xsi:type="object">Acme\ModuleName\ViewModel\ProductData</argument>
     </arguments>
 </block>
 ```
@@ -431,7 +431,7 @@ class ProductData implements ArgumentInterface
 <!-- product.phtml -->
 <?php
 declare(strict_types=1);
-/** @var \Iagt\ModuleName\ViewModel\ProductData $viewModel */
+/** @var \Acme\ModuleName\ViewModel\ProductData $viewModel */
 $viewModel = $block->getData('view_model');
 ?>
 <p><?= $block->escapeHtml($viewModel->getProductById(1)->getName()) ?></p>
@@ -445,7 +445,7 @@ $viewModel = $block->getData('view_model');
 <?php
 declare(strict_types=1);
 
-namespace Iagt\ModuleName\Setup\Patch\Data;
+namespace Acme\ModuleName\Setup\Patch\Data;
 
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchRevertableInterface;
@@ -512,7 +512,7 @@ bin/magento indexer:set-mode realtime catalog_category_product  # solo si es cr�
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Indexer/etc/indexer.xsd">
     <indexer id="vendor_module_entity"
              view_id="vendor_module_entity"
-             class="Iagt\ModuleName\Model\Indexer\EntityIndexer"
+             class="Acme\ModuleName\Model\Indexer\EntityIndexer"
              primary="catalog_product">
         <title translate="true">Vendor Module Entity Indexer</title>
         <description translate="true">Reindexes entities</description>
@@ -539,8 +539,8 @@ bin/magento cache:clean full_page              # limpiar FPC
 bin/magento cache:clean config                 # después de cambios en XML
 
 # Testing
-vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Iagt/
-vendor/bin/phpcs --standard=Magento2 app/code/Iagt/
+vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Acme/
+vendor/bin/phpcs --standard=Magento2 app/code/Acme/
 
 # Análisis de módulo
 bin/magento module:status

@@ -13,7 +13,7 @@ El patrón estándar de Magento para acceso a datos. Obligatorio en módulos con
 // Api/Data/ExportInterface.php — DTO
 <?php
 declare(strict_types=1);
-namespace Iagt\OrderExport\Api\Data;
+namespace Acme\OrderExport\Api\Data;
 
 /** @api */
 interface ExportInterface extends \Magento\Framework\Api\ExtensibleDataInterface
@@ -34,7 +34,7 @@ interface ExportInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 // Api/ExportRepositoryInterface.php — service contract
 <?php
 declare(strict_types=1);
-namespace Iagt\OrderExport\Api;
+namespace Acme\OrderExport\Api;
 
 /** @api */
 interface ExportRepositoryInterface
@@ -49,9 +49,9 @@ interface ExportRepositoryInterface
 // Model/Export.php — implementación del DTO
 <?php
 declare(strict_types=1);
-namespace Iagt\OrderExport\Model;
+namespace Acme\OrderExport\Model;
 
-use Iagt\OrderExport\Api\Data\ExportInterface;
+use Acme\OrderExport\Api\Data\ExportInterface;
 use Magento\Framework\Model\AbstractModel;
 
 class Export extends AbstractModel implements ExportInterface
@@ -76,10 +76,10 @@ class Export extends AbstractModel implements ExportInterface
 // Model/ExportRepository.php — implementación del repository
 <?php
 declare(strict_types=1);
-namespace Iagt\OrderExport\Model;
+namespace Acme\OrderExport\Model;
 
-use Iagt\OrderExport\Api\ExportRepositoryInterface;
-use Iagt\OrderExport\Api\Data\ExportInterface;
+use Acme\OrderExport\Api\ExportRepositoryInterface;
+use Acme\OrderExport\Api\Data\ExportInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -161,7 +161,7 @@ class ExportRepository implements ExportRepositoryInterface
 // Plugin/ProductPricePlugin.php
 <?php
 declare(strict_types=1);
-namespace Iagt\Pricing\Plugin;
+namespace Acme\Pricing\Plugin;
 
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
@@ -211,7 +211,7 @@ class ProductPricePlugin
 <!-- etc/di.xml -->
 <type name="Magento\Catalog\Api\ProductRepositoryInterface">
     <plugin name="vendor_pricing_product_price"
-            type="Iagt\Pricing\Plugin\ProductPricePlugin"
+            type="Acme\Pricing\Plugin\ProductPricePlugin"
             sortOrder="10"/>
             <!-- gaps de 10 para permitir inserción entre plugins -->
 </type>
@@ -225,7 +225,7 @@ class ProductPricePlugin
 // Observer/OrderExportAfterObserver.php
 <?php
 declare(strict_types=1);
-namespace Iagt\OrderExport\Observer;
+namespace Acme\OrderExport\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
@@ -268,7 +268,7 @@ class OrderExportAfterObserver implements ObserverInterface
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="sales_order_save_after">
         <observer name="vendor_order_export_after"
-                  instance="Iagt\OrderExport\Observer\OrderExportAfterObserver"/>
+                  instance="Acme\OrderExport\Observer\OrderExportAfterObserver"/>
     </event>
 </config>
 ```
@@ -284,29 +284,29 @@ class OrderExportAfterObserver implements ObserverInterface
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
     <route url="/V1/vendor/exports" method="GET">
-        <service class="Iagt\OrderExport\Api\ExportRepositoryInterface" method="getList"/>
+        <service class="Acme\OrderExport\Api\ExportRepositoryInterface" method="getList"/>
         <resources>
-            <resource ref="Iagt_OrderExport::view"/>
+            <resource ref="Acme_OrderExport::view"/>
         </resources>
     </route>
 
     <route url="/V1/vendor/exports/:id" method="GET">
-        <service class="Iagt\OrderExport\Api\ExportRepositoryInterface" method="getById"/>
+        <service class="Acme\OrderExport\Api\ExportRepositoryInterface" method="getById"/>
         <resources>
-            <resource ref="Iagt_OrderExport::view"/>
+            <resource ref="Acme_OrderExport::view"/>
         </resources>
     </route>
 
     <route url="/V1/vendor/exports" method="POST">
-        <service class="Iagt\OrderExport\Api\ExportRepositoryInterface" method="save"/>
+        <service class="Acme\OrderExport\Api\ExportRepositoryInterface" method="save"/>
         <resources>
-            <resource ref="Iagt_OrderExport::save"/>
+            <resource ref="Acme_OrderExport::save"/>
         </resources>
     </route>
 
     <!-- Endpoint público (sin autenticación) -->
     <route url="/V1/vendor/exports/status/:token" method="GET">
-        <service class="Iagt\OrderExport\Api\ExportStatusInterface" method="getByToken"/>
+        <service class="Acme\OrderExport\Api\ExportStatusInterface" method="getByToken"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>
@@ -351,7 +351,7 @@ class OrderExportAfterObserver implements ObserverInterface
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>Iagt_OrderExport::view</aclResource>
+        <aclResource>Acme_OrderExport::view</aclResource>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
                       name="vendor_export_listing_data_source">
             <settings>
@@ -420,7 +420,7 @@ class OrderExportAfterObserver implements ObserverInterface
             </settings>
         </column>
 
-        <actionsColumn name="actions" class="Iagt\OrderExport\Ui\Component\Listing\Column\ExportActions">
+        <actionsColumn name="actions" class="Acme\OrderExport\Ui\Component\Listing\Column\ExportActions">
             <settings>
                 <indexField>export_id</indexField>
             </settings>
@@ -440,7 +440,7 @@ class OrderExportAfterObserver implements ObserverInterface
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="default">
         <job name="vendor_order_export_process"
-             instance="Iagt\OrderExport\Cron\ProcessPendingExports"
+             instance="Acme\OrderExport\Cron\ProcessPendingExports"
              method="execute">
             <schedule>*/15 * * * *</schedule>  <!-- cada 15 minutos -->
         </job>
@@ -452,7 +452,7 @@ class OrderExportAfterObserver implements ObserverInterface
 // Cron/ProcessPendingExports.php
 <?php
 declare(strict_types=1);
-namespace Iagt\OrderExport\Cron;
+namespace Acme\OrderExport\Cron;
 
 class ProcessPendingExports
 {
@@ -492,7 +492,7 @@ class ProcessPendingExports
                  showInWebsite="1" showInStore="1">
             <tab>vendor</tab>
             <label>Order Export</label>
-            <resource>Iagt_OrderExport::config</resource>
+            <resource>Acme_OrderExport::config</resource>
 
             <group id="general" translate="label" type="text" sortOrder="10"
                    showInDefault="1" showInWebsite="1" showInStore="1">

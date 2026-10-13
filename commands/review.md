@@ -26,7 +26,7 @@ Revisión completa de código Magento contra las reglas del stack de referencia.
 | Colección sin límite | 🟡 | `load()` sin `setPageSize()` |
 | Sin cache tags | 🟡 | Bloques sin `getIdentities()` |
 | Preference evitable | 🟡 | Rewrite donde plugin bastaría |
-| Naming incorrecto | 🟢 | Vendor/módulo sin prefijo Iagt |
+| Naming incorrecto | 🟢 | Vendor/módulo sin prefijo Acme |
 | Estructura no estándar | 🟢 | Carpetas fuera de convención |
 | Código duplicado | 💡 | Lógica repetida extraíble |
 | Optimización posible | 💡 | Queries mejorables |

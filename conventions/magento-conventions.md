@@ -9,21 +9,21 @@
 ## Naming — módulos y namespaces
 
 ```
-Vendor namespace:   Iagt
-Módulo:             Iagt\NombreModulo
-Nombre completo:    Iagt_NombreModulo (Magento convention)
-Directorio:         app/code/Iagt/NombreModulo/
+Vendor namespace:   Acme
+Módulo:             Acme\NombreModulo
+Nombre completo:    Acme_NombreModulo (Magento convention)
+Directorio:         app/code/Acme/NombreModulo/
 ```
 
 ```php
 // Namespaces — UpperCamelCase
-namespace Iagt\CustomerSync\Model;
-namespace Iagt\CustomerSync\Api\Data;
-namespace Iagt\CustomerSync\Controller\Adminhtml\Entity;
+namespace Acme\CustomerSync\Model;
+namespace Acme\CustomerSync\Api\Data;
+namespace Acme\CustomerSync\Controller\Adminhtml\Entity;
 
 // ❌ Prohibido
 namespace Vendor\CustomerSync\model;  // lowercase
-namespace Iagt_CustomerSync;        // underscore en namespace PHP
+namespace Acme_CustomerSync;        // underscore en namespace PHP
 ```
 
 ---
@@ -114,7 +114,7 @@ entity_id, order_id, created_at, updated_at, is_active
 <?php
 declare(strict_types=1);  // OBLIGATORIO en todos los archivos PHP nuevos
 
-namespace Iagt\ModuleName\Model;
+namespace Acme\ModuleName\Model;
 
 // ✅ Tipos explícitos en parámetros y retorno
 public function getById(int $id): ProductInterface {}
@@ -300,7 +300,7 @@ $this->logger->info('Customer', ['email' => $email, 'password' => $pass]); // GD
 
 ```xml
 <!-- ✅ Extender layouts existentes — nunca sobreescribir core -->
-<!-- app/code/Iagt/Module/view/frontend/layout/catalog_product_view.xml -->
+<!-- app/code/Acme/Module/view/frontend/layout/catalog_product_view.xml -->
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
@@ -313,7 +313,7 @@ $this->logger->info('Customer', ['email' => $email, 'password' => $pass]); // GD
                    after="product.info.price">
                 <arguments>
                     <argument name="view_model"
-                              xsi:type="object">Iagt\Module\ViewModel\CustomData</argument>
+                              xsi:type="object">Acme\Module\ViewModel\CustomData</argument>
                 </arguments>
             </block>
         </referenceBlock>
@@ -354,13 +354,13 @@ public function export(OrderInterface $order): bool
 
 ```bash
 # Validar módulo con Magento2 standard
-vendor/bin/phpcs --standard=Magento2 app/code/Iagt/ModuleName/
+vendor/bin/phpcs --standard=Magento2 app/code/Acme/ModuleName/
 
 # Fix automático de problemas triviales
-vendor/bin/phpcbf --standard=Magento2 app/code/Iagt/ModuleName/
+vendor/bin/phpcbf --standard=Magento2 app/code/Acme/ModuleName/
 
 # Análisis estático con PHPStan
-vendor/bin/phpstan analyse app/code/Iagt/ModuleName/ --level=5
+vendor/bin/phpstan analyse app/code/Acme/ModuleName/ --level=5
 
 # Integrar en pre-commit hook
 #!/bin/bash
@@ -386,7 +386,7 @@ vendor/bin/phpcs --standard=Magento2 --extensions=php $(git diff --cached --name
     "autoload": {
         "files": ["registration.php"],
         "psr-4": {
-            "Iagt\\ModuleName\\": ""
+            "Acme\\ModuleName\\": ""
         }
     }
 }
